@@ -46,9 +46,40 @@ class ModelTrainer:
                 "CatBoosting classifier": CatBoostRegressor(verbose=False),
                 "AdaBoost classifier": AdaBoostRegressor(),
             }
+            params = {
+                "Decision Tree": {
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                },
+                "Random Forest": {
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Gradient Boosting": {
+                    'learning_rate':[.1,.01,.05,.001],
+                    'subsample':[0.6,0.7,0.75,0.8,0.85,0.9],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Linear Regression": {},
+                "K-Nearest Neighbors classifier": {
+                    'n_neighbors': [5,7,9,11],
+                    'weights': ['uniform', 'distance']
+                },
+                "XGBoosting classifier": {
+                    'learning_rate':[.1,.01,.05,.001],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "CatBoosting classifier": {
+                    'depth': [6,8,10],
+                    'learning_rate': [0.01, 0.1],
+                    'iterations': [30, 50]
+                },
+                "AdaBoost classifier": {
+                    'learning_rate':[.1,.01,.05,.001],
+                    'n_estimators': [8,16,32,64,128,256]
+                }
+            }
 
             model_report:dict = evaluate_models(x_train=x_train,y_train=y_train,x_test=x_test,y_test=y_test,
-                                                models=models)
+                                                models=models,param=params)
 
             best_model_score = max(sorted(model_report.values()))
 
